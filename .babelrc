@@ -3,10 +3,14 @@
       ["@babel/env", {
         "modules": false,
         "useBuiltIns": "usage",
-        "corejs": "3.0.0"
+        "corejs": "3.7.0"
       }]
     ],
     "plugins": [
-        "@babel/plugin-proposal-optional-chaining"
+      ["import", {
+        "libraryName": "view-design",
+        "libraryDirectory": "src/components"
+      }],
+      "@babel/plugin-proposal-optional-chaining"
     ]
 }

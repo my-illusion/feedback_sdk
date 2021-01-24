@@ -3,6 +3,16 @@ import commonjs from "rollup-plugin-commonjs";
 import babel from "rollup-plugin-babel";
 import { terser } from "rollup-plugin-terser";
 
+import vue from "rollup-plugin-vue";
+import postcss from "rollup-plugin-postcss";
+// import css from "rollup-plugin-css-only";
+
+// PostCSS plugins
+import simplevars from "postcss-simple-vars";
+import nested from "postcss-nested";
+import cssnext from "postcss-cssnext";
+import cssnano from "cssnano";
+
 import { name } from "./package.json";
 
 const Global = `var process = {
@@ -29,6 +39,20 @@ export default [
       },
     ],
     plugins: [
+      postcss({
+        plugins: [
+          simplevars(),
+          nested(),
+          cssnext({ warnForDuplicates: false }),
+          cssnano(),
+        ],
+        extensions: [".css"],
+      }),
+      vue({
+        css: true,
+        // 把组件转换成 render 函数
+        compileTemplate: true,
+      }),
       nodeResolve({
         mainFields: ["module", "main"],
       }),
