@@ -1,5 +1,5 @@
 {
-  "name": "library-rollup-framework",
+  "name": "feedback_sdk",
   "version": "0.0.1",
   "description": "framework for library  develop",
   "main": "index.js",
@@ -37,7 +37,11 @@
     "rollup-plugin-uglify": "^6.0.4",
     "typescript": "^3.9.6"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "html2canvas": "^1.0.0-rc.7",
+    "vue": "^2.6.12"
+  },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
   }

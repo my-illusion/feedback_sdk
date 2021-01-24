@@ -5,6 +5,12 @@ import { terser } from "rollup-plugin-terser";
 
 import { name } from "./package.json";
 
+const Global = `var process = {
+  env: {
+    NODE_ENV: 'development'
+  }
+}`;
+
 export default [
   {
     input: "build/index.js",
@@ -13,11 +19,13 @@ export default [
         exports: "named",
         file: `lib/${name}.cjs.js`,
         format: "cjs",
+        banner: Global,
       },
       {
         exports: "named",
         file: `es/${name}.es.js`,
         format: "es",
+        banner: Global,
       },
     ],
     plugins: [
@@ -29,6 +37,20 @@ export default [
       }),
       babel({
         exclude: "node_modules/**",
+        presets: [
+          [
+            "@babel/env",
+            {
+              modules: false,
+              targets: {
+                browsers: "> 1%, IE 11, not op_mini all, not dead",
+                node: 8,
+              },
+              corejs: "3.0",
+              useBuiltIns: "usage",
+            },
+          ],
+        ],
       }),
       terser(),
     ],
