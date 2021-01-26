@@ -2,6 +2,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import babel from "rollup-plugin-babel";
 import { terser } from "rollup-plugin-terser";
+import replace from "rollup-plugin-replace";
 
 import vue from "rollup-plugin-vue";
 import postcss from "rollup-plugin-postcss";
@@ -37,6 +38,12 @@ export default [
         format: "es",
         banner: Global,
       },
+      {
+        exports: "named",
+        name: "FeedbackPlugin",
+        file: `es/${name}.umd.js`,
+        format: "umd",
+      },
     ],
     plugins: [
       postcss({
@@ -53,11 +60,15 @@ export default [
         // 把组件转换成 render 函数
         compileTemplate: true,
       }),
+
       nodeResolve({
         mainFields: ["module", "main"],
       }),
       commonjs({
         include: "node_modules/**",
+      }),
+      replace({
+        "process.env.NODE_ENV": JSON.stringify("production"),
       }),
       babel({
         exclude: "node_modules/**",

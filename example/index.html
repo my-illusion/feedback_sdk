@@ -7,6 +7,13 @@
 </head>
 <body>
     <img style="width: 50%;" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2941782042,3120113709&fm=26&gp=0.jpg"/>
-    <script src="../lib//feedback_sdk.cjs.js"></script>
+    <script src="../es/feedback_sdk.umd.js"></script>
+    <script>
+        const FeedbackPlugin = window.FeedbackPlugin
+        const plugin = FeedbackPlugin.initPlugin()
+        plugin.render()
+        plugin.render()
+        // plugin.render()
+    </script>
 </body>
 </html>

@@ -71,6 +71,10 @@ function printClip(
 
   // eslint-disable-next-line no-unused-expressions
   cb && cb(clipImgBase64);
+  const rectContext = canvasRect.getContext("2d");
+  if (rectContext) {
+    rectContext.clearRect(0, 0, canvasRect.width, canvasRect.height);
+  }
 
   // 隐藏canvas
   canvasRect.style.display = "none";
@@ -148,7 +152,8 @@ function handleClick(cb: ShootCallback) {
   };
 }
 
-function generateTemplate() {
+function generateTemplate(options: PluginOptions) {
+  console.log(options);
   const div = document.createElement("div");
   div.style.position = "fixed";
   div.style.width = "40px";
@@ -161,6 +166,7 @@ function generateTemplate() {
   document.body.appendChild(div);
 
   const Modal = {
+    name: "modal",
     data() {
       return {
         style: {
@@ -301,16 +307,33 @@ function generateTemplate() {
             },
             ["提交"]
           ),
-          [
-            ...this.screenShoot.map((item: string, index: number) => {
-              return h("img", {
-                domProps: {
-                  src: item,
-                },
-                key: index,
-              });
-            }),
-          ],
+          h(
+            "div",
+            {
+              staticStyle: {
+                display: "flex",
+                justifyContent: "space-between",
+                maxHeight: "250px",
+                overflow: "auto",
+                flexWrap: "wrap",
+              },
+            },
+            [
+              ...this.screenShoot.map((item: string, index: number) => {
+                return h("img", {
+                  domProps: {
+                    src: item,
+                  },
+                  staticStyle: {
+                    width: "calc(12.5vw - 20px)",
+                    objectFit: "scale-down",
+                  },
+                  key: index,
+                });
+              }),
+              // 支持手动上传图片
+            ]
+          ),
         ]
       );
     },
@@ -406,22 +429,32 @@ function generateTemplate() {
               },
             },
             [
-              !this.modalVisible
-                ? h("img", {
-                    staticStyle: {
-                      width: "100%",
-                    },
-                    domProps: {
-                      src: "../static/back.jpg",
-                    },
-                  })
-                : h("modal", {
-                    on: {
-                      closeModal: () => {
-                        this.modalVisible = false;
-                      },
-                    },
-                  }),
+              h(
+                "keep-alive",
+                {
+                  props: {
+                    include: "modal",
+                  },
+                },
+                [
+                  !this.modalVisible
+                    ? h("img", {
+                        staticStyle: {
+                          width: "100%",
+                        },
+                        domProps: {
+                          src: "../static/back.jpg",
+                        },
+                      })
+                    : h("modal", {
+                        on: {
+                          closeModal: () => {
+                            this.modalVisible = false;
+                          },
+                        },
+                      }),
+                ]
+              ),
             ]
           ),
         ]
@@ -435,12 +468,21 @@ function generateTemplate() {
   return div;
 }
 
-(function a() {
-  // 从localstorage中判断当前是否存在实例
-  // const ins = localStorage.getItem(uniqueKey);
+let once: any = null;
 
-  generateTemplate();
+const FeedPlugin = (function FeedPlugin(options: PluginOptions) {
+  this.isRendered = false;
+  this.render = function render() {
+    if (!this.isRendered) {
+      generateTemplate(options);
+      this.isRendered = true;
+    }
+  };
+} as any) as FeedPlugin;
 
+const initPlugin = function initPlugin(options: PluginOptions) {
+  if (once) return once;
+  once = new FeedPlugin(options);
   // 添加用于画框的canvas
   const canvas = document.createElement("canvas");
 
@@ -458,4 +500,8 @@ function generateTemplate() {
   canvasRect.style.display = "none";
 
   document.body.appendChild(canvas);
-})();
+  return once;
+};
+
+// eslint-disable-next-line import/prefer-default-export
+export { initPlugin };
