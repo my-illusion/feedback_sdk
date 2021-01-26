@@ -7,6 +7,8 @@ import Form from "view-design/src/components/form";
 import FormItem from "view-design/src/components/form-item";
 import Button from "view-design/src/components/button";
 
+import "../static/font/iconfont.css";
+
 import "view-design/dist/styles/iview.css";
 
 Vue.component("Input", Input);
@@ -14,39 +16,12 @@ Vue.component("Form", Form);
 Vue.component("FormItem", FormItem);
 Vue.component("Button", Button);
 
-// const instance = null;
-// const uniqueKey = "12345678"; // 后续可以改为16位唯一的字符串
-
-// let isMouseEnter = false;
-
 let canvasRect: HTMLCanvasElement;
 
 let isMoving = false;
 
 const penColor = "#ff0000";
 const penWidth = 2;
-
-// const placeholder = `
-//   <div style="height: 100%">
-//     <img src="../static/back.jpg" style="height: 100%"/>
-//   </div>
-//   `;
-
-// function handleMouseEnter() {
-//   if (isMouseEnter) return;
-//   isMouseEnter = true;
-//   this.innerHTML = `
-//     <div>
-//       打开
-//     </div>
-//   `;
-// }
-
-// function handleMouseleave() {
-//   if (!isMouseEnter) return;
-//   isMouseEnter = false;
-//   this.innerHTML = placeholder;
-// }
 
 // function downloadIamge(imgUrl: string) {
 //   // 图片保存有很多方式，这里使用了一种投机的简单方法。
@@ -184,17 +159,20 @@ function generateTemplate() {
   div.setAttribute("id", "feedback_unique");
 
   document.body.appendChild(div);
-  // div.innerHTML = placeholder;
 
   const Modal = {
     data() {
       return {
         style: {
           position: "absolute",
-          width: "20vw",
-          backgroundColor: "#adefe0",
-          right: 0,
+          width: "25vw",
+          backgroundColor: "#e0eff5",
+          padding: "30px 12px",
+          right: "-40px",
           bottom: "-40px",
+          maxHeight: "100vh",
+          minHeight: "400px",
+          overflow: "auto",
         },
         formItem: {
           input: "",
@@ -218,6 +196,37 @@ function generateTemplate() {
           staticStyle: this.style,
         },
         [
+          h("i", {
+            staticStyle: {
+              position: "absolute",
+              top: "0px",
+              fontSize: "20px",
+              right: "2px",
+              cursor: "pointer",
+              transition: "transform 0.5s",
+            },
+            staticClass: "iconfont yiyangjiulipu icon-close",
+            on: {
+              click: (e: any) => {
+                e.stopPropagation();
+                this.$emit("closeModal");
+              },
+              mouseenter() {
+                const self: HTMLElement | null = document.querySelector(
+                  "i.yiyangjiulipu"
+                );
+                if (!self) return;
+                self.style.transform = "rotate(360deg)";
+              },
+              mouseleave() {
+                const self: HTMLElement | null = document.querySelector(
+                  "i.yiyangjiulipu"
+                );
+                if (!self) return;
+                self.style.transform = "rotate(0deg)";
+              },
+            },
+          }),
           h(
             "Form",
             {
@@ -238,6 +247,9 @@ function generateTemplate() {
               h(
                 "FormItem",
                 {
+                  staticStyle: {
+                    width: "100%",
+                  },
                   props: {
                     label: "输入反馈信息",
                   },
@@ -302,11 +314,6 @@ function generateTemplate() {
         ]
       );
     },
-    // template: `
-    //   <div :style="style">
-    //     modal
-    //   </div>
-    // `,
   };
 
   new Vue({
@@ -347,16 +354,76 @@ function generateTemplate() {
           },
         },
         [
-          !this.modalVisible
-            ? h("img", {
-                staticStyle: {
-                  width: "100%",
+          h(
+            "transition",
+            {
+              props: {
+                css: false,
+              },
+              on: {
+                beforeEnter(el: HTMLDivElement) {
+                  // eslint-disable-next-line no-param-reassign
+                  el.style.bottom = "-440px";
                 },
-                domProps: {
-                  src: "../static/back.jpg",
+                enter(el: HTMLDivElement) {
+                  const duration = 400; // 500ms
+                  let start: number;
+
+                  function step(timestamp: number) {
+                    if (!start) start = timestamp;
+                    const elapsed = timestamp - start;
+                    const curPosition = -440 + 400 * (elapsed / duration);
+                    // eslint-disable-next-line no-param-reassign
+                    el.style.bottom = `${curPosition}px`;
+
+                    if (curPosition < -40) {
+                      window.requestAnimationFrame(step);
+                    }
+                  }
+
+                  window.requestAnimationFrame(step);
                 },
-              })
-            : h("modal"),
+                leave(el: HTMLDivElement, done: any) {
+                  const duration = 400; // 500ms
+                  let start: number;
+
+                  function step(timestamp: number) {
+                    if (!start) start = timestamp;
+                    const elapsed = timestamp - start;
+                    const curPosition = -40 - 400 * (elapsed / duration);
+                    // eslint-disable-next-line no-param-reassign
+                    el.style.bottom = `${curPosition}px`;
+
+                    if (curPosition > -440) {
+                      window.requestAnimationFrame(step);
+                    } else {
+                      done();
+                    }
+                  }
+
+                  window.requestAnimationFrame(step);
+                },
+              },
+            },
+            [
+              !this.modalVisible
+                ? h("img", {
+                    staticStyle: {
+                      width: "100%",
+                    },
+                    domProps: {
+                      src: "../static/back.jpg",
+                    },
+                  })
+                : h("modal", {
+                    on: {
+                      closeModal: () => {
+                        this.modalVisible = false;
+                      },
+                    },
+                  }),
+            ]
+          ),
         ]
       );
     },

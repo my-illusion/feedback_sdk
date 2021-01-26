@@ -1,0 +1,16 @@
+{
+  "id": "2346424",
+  "name": "iview",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11891777",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    }
+  ]
+}
