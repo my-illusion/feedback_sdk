@@ -10,6 +10,7 @@ import Button from "view-design/src/components/button";
 import MessageImg from "../static/back.jpg";
 
 import "../static/font/iconfont.css";
+import "../static/global.css";
 
 import "view-design/dist/styles/iview.css";
 
@@ -89,7 +90,14 @@ function printClip(
 
 function handleClick(cb: ShootCallback) {
   canvasRect.style.display = "block";
-
+  const ctx = canvasRect.getContext("2d");
+  if (ctx) {
+    ctx.fillStyle = "#f1f0f0";
+    ctx.globalAlpha = 0.3;
+    ctx.fillRect(0, 0, canvasRect.width, canvasRect.height);
+  } else {
+    return;
+  }
   const boundRect = canvasRect.getBoundingClientRect();
   const canvasLeft = boundRect.left;
   const canvasTop = boundRect.top;
@@ -104,7 +112,6 @@ function handleClick(cb: ShootCallback) {
   };
 
   canvasRect.onmousemove = function mousemove(e) {
-    const ctx = canvasRect.getContext("2d");
     if (!ctx || !isMoving) return;
     const width = e.clientX - canvasLeft - x;
     const height = e.clientY - canvasTop - y;
@@ -112,10 +119,12 @@ function handleClick(cb: ShootCallback) {
     ctx.strokeStyle = penColor;
     ctx.lineWidth = penWidth;
     ctx.clearRect(0, 0, canvasRect.width, canvasRect.height);
+    ctx.fillRect(0, 0, canvasRect.width, canvasRect.height);
     ctx.strokeRect(x, y, width, height);
   };
 
   canvasRect.onmouseup = function mouseup(e) {
+    ctx.clearRect(0, 0, canvasRect.width, canvasRect.height);
     canvasRect.onmousemove = null;
     isMoving = false;
     const width = e.clientX - canvasLeft - x - 2 * penWidth;
@@ -326,16 +335,44 @@ function generateTemplate(options: PluginOptions = {}) {
             },
             [
               ...this.screenShoot.map((item: string, index: number) => {
-                return h("img", {
-                  domProps: {
-                    src: item,
+                return h(
+                  "div",
+                  {
+                    staticClass: "image-container",
+                    key: item,
+                    staticStyle: {
+                      width: "calc(12.5vw - 20px)",
+                      position: "relative",
+                      margin: "auto",
+                    },
                   },
-                  staticStyle: {
-                    width: "calc(12.5vw - 20px)",
-                    objectFit: "scale-down",
-                  },
-                  key: index,
-                });
+                  [
+                    h("i", {
+                      staticClass: "iconfont icon-close",
+                      staticStyle: {
+                        position: "absolute",
+                        right: "0",
+                        top: "-4px",
+                        cursor: "pointer",
+                      },
+                      on: {
+                        click: () => {
+                          this.screenShoot.splice(index, 1);
+                        },
+                      },
+                    }),
+                    h("img", {
+                      domProps: {
+                        src: item,
+                      },
+                      staticStyle: {
+                        width: "100%",
+                        objectFit: "scale-down",
+                      },
+                      key: index,
+                    }),
+                  ]
+                );
               }),
               // 支持手动上传图片
             ]
