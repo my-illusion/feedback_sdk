@@ -1111,6 +1111,14 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@rollup/plugin-image@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-image/-/plugin-image-2.0.6.tgz#2e6d7a72b25df81aa80c8c0866d45a45c1e6a265"
+  integrity sha512-bB+spXogbPiFjhBS7i8ajUOgOnVwWK3bnJ6VroxKey/q8/EPRkoSh+4O1qPCw97qMIDspF4TlzXVBhZ7nojIPw==
+  dependencies:
+    "@rollup/pluginutils" "^3.1.0"
+    mini-svg-data-uri "^1.2.3"
+
 "@rollup/pluginutils@4":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.1.0.tgz#0dcc61c780e39257554feb7f77207dceca13c838"
@@ -1119,7 +1127,7 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@rollup/pluginutils@^3.0.8":
+"@rollup/pluginutils@^3.0.8", "@rollup/pluginutils@^3.1.0":
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/@rollup/pluginutils/download/@rollup/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"
   integrity sha1-cGtFJO5tyLEDs8mVUz5a1oDAK5s=
@@ -5064,6 +5072,11 @@ mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
+
+mini-svg-data-uri@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.2.3.tgz#e16baa92ad55ddaa1c2c135759129f41910bc39f"
+  integrity sha512-zd6KCAyXgmq6FV1mR10oKXYtvmA9vRoB6xPSTUJTbFApCtkefDnYueVR1gkof3KcdLZo1Y8mjF2DFmQMIxsHNQ==
 
 minimatch@^3.0.4:
   version "3.0.4"

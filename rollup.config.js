@@ -3,6 +3,7 @@ import commonjs from "rollup-plugin-commonjs";
 import babel from "rollup-plugin-babel";
 import { terser } from "rollup-plugin-terser";
 import replace from "rollup-plugin-replace";
+import image from "@rollup/plugin-image";
 
 import vue from "rollup-plugin-vue";
 import postcss from "rollup-plugin-postcss";
@@ -55,6 +56,7 @@ export default [
         ],
         extensions: [".css"],
       }),
+      image(),
       vue({
         css: true,
         // 把组件转换成 render 函数

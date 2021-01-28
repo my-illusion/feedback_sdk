@@ -10,7 +10,10 @@
     <script src="../es/feedback_sdk.umd.js"></script>
     <script>
         const FeedbackPlugin = window.FeedbackPlugin
-        const plugin = FeedbackPlugin.initPlugin()
+        const plugin = FeedbackPlugin.initPlugin({
+            // backgroundColor: "red",
+            // width: 25
+        })
         plugin.render()
         plugin.render()
         // plugin.render()

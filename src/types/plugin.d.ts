@@ -1,11 +1,14 @@
 declare module "vue/dist/vue.esm.js";
 declare module "view-design/src/components/*";
+declare module "*.jpg";
 
 type ShootCallback = (base64: string) => void;
 
 interface PluginOptions {
-  color?: string;
-  render: Function;
+  right?: number;
+  bottom?: number;
+  backgroundColor?: string;
+  width?: number;
 }
 
 interface FeedPlugin {

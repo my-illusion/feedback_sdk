@@ -7,6 +7,8 @@ import Form from "view-design/src/components/form";
 import FormItem from "view-design/src/components/form-item";
 import Button from "view-design/src/components/button";
 
+import MessageImg from "../static/back.jpg";
+
 import "../static/font/iconfont.css";
 
 import "view-design/dist/styles/iview.css";
@@ -152,33 +154,33 @@ function handleClick(cb: ShootCallback) {
   };
 }
 
-function generateTemplate(options: PluginOptions) {
-  console.log(options);
+function generateTemplate(options: PluginOptions = {}) {
   const div = document.createElement("div");
   div.style.position = "fixed";
-  div.style.width = "40px";
-  div.style.height = "40px";
-  div.style.right = "40px";
-  div.style.bottom = "40px";
-  div.style.backgroundColor = "aqua";
+  div.style.right = `${options.right || 40}px`;
+  div.style.bottom = `${options.bottom || 40}px`;
   div.setAttribute("id", "feedback_unique");
 
   document.body.appendChild(div);
+
+  const ModalStyle = {
+    position: "absolute",
+    width: `${options.width || 25}vw`,
+    backgroundColor: options.backgroundColor || "#e0eff5",
+    padding: "30px 12px",
+    right: "-40px",
+    bottom: "-40px",
+    maxHeight: "100vh",
+    minHeight: "400px",
+    overflow: "auto",
+  };
 
   const Modal = {
     name: "modal",
     data() {
       return {
         style: {
-          position: "absolute",
-          width: "25vw",
-          backgroundColor: "#e0eff5",
-          padding: "30px 12px",
-          right: "-40px",
-          bottom: "-40px",
-          maxHeight: "100vh",
-          minHeight: "400px",
-          overflow: "auto",
+          ...ModalStyle,
         },
         formItem: {
           input: "",
@@ -264,6 +266,10 @@ function generateTemplate(options: PluginOptions) {
                   h("Input", {
                     domProps: {
                       placeholder: "请输入反馈信息",
+                    },
+                    staticStyle: {
+                      maxHeight: "200px",
+                      overflow: "auto",
                     },
                     props: {
                       value: this.formItem.input,
@@ -443,7 +449,7 @@ function generateTemplate(options: PluginOptions) {
                           width: "100%",
                         },
                         domProps: {
-                          src: "../static/back.jpg",
+                          src: MessageImg,
                         },
                       })
                     : h("modal", {
