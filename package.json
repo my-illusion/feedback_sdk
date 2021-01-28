@@ -2,7 +2,8 @@
   "name": "feedback_sdk",
   "version": "0.0.1",
   "description": "framework for library  develop",
-  "main": "index.js",
+  "main": "lib/feedback_sdk.cjs.js",
+  "module": "es/feedback_sdk.es.js",
   "scripts": {
     "build": "tsc && rollup --config",
     "test": "jest --config ./config/jest/config.json --no-cache"
