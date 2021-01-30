@@ -1,6 +1,6 @@
 {
   "name": "feedback_sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "framework for library  develop",
   "main": "lib/feedback_sdk.cjs.js",
   "module": "es/feedback_sdk.es.js",
@@ -61,7 +61,6 @@
     "babel-core": "7.0.0-bridge.0"
   },
   "peerDependencies": {
-    "ant-design-vue": "^1.7.2",
     "view-design": "^4.5.0-beta.3"
   }
 }

@@ -197,6 +197,7 @@ function generateTemplate(options: PluginOptions = {}) {
         formItem: {
           input: "",
         },
+        isClipping: false,
         screenShoot: [], // 屏幕截图
       };
     },
@@ -206,6 +207,7 @@ function generateTemplate(options: PluginOptions = {}) {
       },
 
       handleShootCallback(base64: string) {
+        this.isClipping = false;
         this.screenShoot.push(base64);
       },
     },
@@ -304,7 +306,8 @@ function generateTemplate(options: PluginOptions = {}) {
             {
               on: {
                 click: () => {
-                  console.log("开始截屏");
+                  if (this.isClipping) return;
+                  this.isClipping = true;
                   handleClick(this.handleShootCallback.bind(this));
                 },
               },
