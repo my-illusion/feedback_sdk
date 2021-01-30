@@ -8,6 +8,7 @@ import FormItem from "view-design/src/components/form-item";
 import Button from "view-design/src/components/button";
 
 import MessageImg from "../static/back.jpg";
+import UploadImage from "../components/UploadImage.vue";
 
 import "../static/font/iconfont.css";
 import "../static/global.css";
@@ -18,6 +19,7 @@ Vue.component("Input", Input);
 Vue.component("Form", Form);
 Vue.component("FormItem", FormItem);
 Vue.component("Button", Button);
+Vue.component("UploadImage", UploadImage);
 
 let canvasRect: HTMLCanvasElement;
 
@@ -298,7 +300,7 @@ function generateTemplate(options: PluginOptions = {}) {
           ),
           // 支持在线截屏功能
           h(
-            "a",
+            "Button",
             {
               on: {
                 click: () => {
@@ -376,6 +378,13 @@ function generateTemplate(options: PluginOptions = {}) {
                 );
               }),
               // 支持手动上传图片
+              h("UploadImage", {
+                on: {
+                  onUploadSuccess: (base64: string) => {
+                    this.screenShoot.push(base64);
+                  },
+                },
+              }),
             ]
           ),
         ]

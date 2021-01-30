@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "924330",
+      "name": "camera",
+      "font_class": "camera",
+      "unicode": "e8bb",
+      "unicode_decimal": 59579
+    },
+    {
       "icon_id": "11891777",
       "name": "close",
       "font_class": "close",
