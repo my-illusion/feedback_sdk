@@ -182,6 +182,7 @@ function generateTemplate(options: PluginOptions = {}) {
     maxHeight: "100vh",
     minHeight: "400px",
     overflow: "auto",
+    overflowX: "hidden",
   };
 
   const Modal = {
@@ -343,7 +344,7 @@ function generateTemplate(options: PluginOptions = {}) {
                     staticStyle: {
                       width: "calc(12.5vw - 20px)",
                       position: "relative",
-                      margin: "auto",
+                      margin: "auto 0",
                     },
                   },
                   [

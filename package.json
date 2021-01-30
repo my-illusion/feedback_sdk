@@ -1,6 +1,6 @@
 {
   "name": "feedback_sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "framework for library  develop",
   "main": "lib/feedback_sdk.cjs.js",
   "module": "es/feedback_sdk.es.js",
